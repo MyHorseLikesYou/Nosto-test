@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class Config {
     @Bean
     public CurrencyRateProvider currencyRateProvider() {
-        return new CurrencyRateProviderImpl();
+        return new CurrencyRateProviderImpl("http://api.exchangeratesapi.io/v1/", "fdb0c2b963512318dd69f1b85d69d35f");
     }
 
     @Bean
