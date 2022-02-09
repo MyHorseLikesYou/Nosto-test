@@ -42,7 +42,7 @@ public class CurrencyRateProviderTests {
             double rate = currencyRateProvider.getRate(sourceCurrency, targetCurrency);
         });
 
-        assertThat(exception.getMessage(),  Matchers.comparesEqualTo("Currency USD is not supported as a source"));
+        assertThat(exception.getMessage(),  Matchers.comparesEqualTo("Currency USD is not supported as a 'from'. Only EUR is supported."));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CurrencyRateProviderTests {
             double rate = currencyRateProvider.getRate(sourceCurrency, targetCurrency);
         });
 
-        assertThat(exception.getMessage(),  Matchers.comparesEqualTo("Currency USD is not supported as a target"));
+        assertThat(exception.getMessage(),  Matchers.comparesEqualTo("Currency USD is not supported as a 'to'. Only RUB are supported."));
     }
 
     @Test
