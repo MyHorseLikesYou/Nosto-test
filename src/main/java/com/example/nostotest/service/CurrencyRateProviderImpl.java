@@ -14,18 +14,18 @@ public class CurrencyRateProviderImpl implements CurrencyRateProvider {
     }
 
     @Override
-    public double getRate(Currency source, Currency target) throws IOException {
+    public double getRate(Currency from, Currency to) throws IOException {
         GetLatestCurrencyRatesResponse rates = client.getLatest();
 
-        if (!rates.getBase().equals(source.getCurrencyCode())) {
-            throw new UnsupportedOperationException("Currency " + source.getCurrencyCode() + " is not supported as a source");
+        if (!rates.getBase().equals(from.getCurrencyCode())) {
+            throw new UnsupportedOperationException("Currency " + from.getCurrencyCode() + " is not supported as a 'from'. Only " + rates.getBase() + " is supported.");
         }
 
-        if (!rates.getRates().containsKey(target.getCurrencyCode())) {
-            throw new UnsupportedOperationException("Currency " + target.getCurrencyCode() + " is not supported as a target");
+        if (!rates.getRates().containsKey(to.getCurrencyCode())) {
+            throw new UnsupportedOperationException("Currency " + to.getCurrencyCode() + " is not supported as a 'to'. Only " + String.join(",", rates.getRates().keySet()) + " are supported.");
         }
 
-        return rates.getRates().get(target.getCurrencyCode());
+        return rates.getRates().get(to.getCurrencyCode());
     }
 }
 

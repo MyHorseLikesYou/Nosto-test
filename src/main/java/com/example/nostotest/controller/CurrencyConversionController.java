@@ -21,8 +21,7 @@ public class CurrencyConversionController {
     private CurrencyConverter currencyConverter;
 
     @Autowired
-    public CurrencyConversionController(CurrencyConverter currencyConverter)
-    {
+    public CurrencyConversionController(CurrencyConverter currencyConverter) {
         this.currencyConverter = currencyConverter;
     }
 
@@ -32,13 +31,30 @@ public class CurrencyConversionController {
             @RequestParam(value = "to") String to,
             @RequestParam(value = "amount") double amount) throws IOException {
 
-        var sourceCurrency = Currency.getInstance(from);
+        if (from == null || from.isEmpty())
+            throw new IllegalArgumentException("'from' is required");
+
+        if (to == null || to.isEmpty())
+            throw new IllegalArgumentException("'to' is required");
+
+        if (amount < 0)
+            throw new IllegalArgumentException("'amount' can't be less than 0");
+
+        var sourceCurrency = TryCreateCurrency(from);
         var sourceMoney = new Money(new BigDecimal(amount), sourceCurrency);
 
-        var targetCurrency = Currency.getInstance(to);
+        var targetCurrency = TryCreateCurrency(to);
         var targetMoney = currencyConverter.Convert(sourceMoney, targetCurrency);
 
         return new CurrencyConversionResultDto(targetMoney.getValue());
+    }
+
+    private Currency TryCreateCurrency(String currencyCode) {
+        try {
+            return Currency.getInstance(currencyCode);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Illegal currency code " + currencyCode);
+        }
     }
 }
 
