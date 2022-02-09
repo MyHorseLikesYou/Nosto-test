@@ -1,0 +1,19 @@
+name: SetUp Metrics
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Heroku Cli
+        run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - name: Heroku Container Registry login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: SetUp Metrics
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku drains:add https://webhooks.hostedgraphite.com/heroku/mhlu-nosto-currency-converter/logs/\?apikey\=${{ secrets.HEROKU_HOSTEDGRAPHITE_APIKEY }} -a mhlu-nosto-currency-converter
