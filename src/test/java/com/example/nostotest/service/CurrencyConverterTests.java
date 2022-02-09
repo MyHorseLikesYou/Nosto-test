@@ -49,7 +49,7 @@ public class CurrencyConverterTests {
     }
 
     @Test
-    void givenAmountGreaterThanZeroAndDifferentCurrencies_whenCalculateArea_thenReturnConvertedValue() throws IOException {
+    void givenAmountGreaterThanZeroAndDifferentCurrencies_whenConvert_thenReturnConvertedValue() throws IOException {
 
         Currency sourceCurrency = Currency.getInstance("EUR");
         Currency targetCurrency = Currency.getInstance("RUB");
